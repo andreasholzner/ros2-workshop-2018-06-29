@@ -14,9 +14,10 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rcutils)
 find_package(leap_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 
 add_executable(hand_publisher hand_publisher.cpp)
-ament_target_dependencies(hand_publisher rclcpp rcutils leap_msgs)
+ament_target_dependencies(hand_publisher rclcpp rcutils leap_msgs visualization_msgs)
 
 install(TARGETS
   hand_publisher
