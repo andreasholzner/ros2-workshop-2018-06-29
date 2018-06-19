@@ -1,0 +1,5 @@
+float32 length
+float32 width
+
+geometry_msgs/Point tip_position
+geometry_msgs/Quaternion tip_orientation

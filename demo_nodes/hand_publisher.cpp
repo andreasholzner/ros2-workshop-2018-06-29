@@ -10,7 +10,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "rcutils/cmdline_parser.h"
-#include "leap_msgs/msg/hand_array.hpp"
+#include "leap_msgs/msg/leap_frame.hpp"
 
 using namespace std::chrono_literals;
 
@@ -19,7 +19,7 @@ public:
   HandPublisher(std::string topic, std::string frame)
   : Node("hand_publisher"), frame_(frame), counter_(0), period_(50), time_lapse_(100ms)
   {
-    publisher_ = create_publisher<leap_msgs::msg::HandArray>(topic);
+    publisher_ = create_publisher<leap_msgs::msg::LeapFrame>(topic);
 
     timer_ = this->create_wall_timer(time_lapse_, [this]() -> void {
       publish_hands();
@@ -36,7 +36,7 @@ private:
 
   leap_msgs::msg::HandArray create_msg(double elongation)
   {
-    auto message = leap_msgs::msg::HandArray();
+    auto message = leap_msgs::msg::LeapFrame();
     message.header = std_msgs::msg::Header();
     message.header.frame_id = frame_;
     message.header.stamp = rclcpp::Clock().now();
@@ -62,7 +62,7 @@ private:
   size_t period_;
   std::chrono::milliseconds time_lapse_;
   rclcpp::TimerBase::SharedPtr timer_;
-  rclcpp::Publisher<leap_msgs::msg::HandArray>::SharedPtr publisher_;
+  rclcpp::Publisher<leap_msgs::msg::LeapFrame>::SharedPtr publisher_;
 };
 
 int main(int argc, char ** argv)
