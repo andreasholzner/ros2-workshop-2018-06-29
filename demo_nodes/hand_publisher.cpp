@@ -10,7 +10,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "rcutils/cmdline_parser.h"
-#include "leap_msgs/msg/leap_frame.hpp"
+#include "leap_msgs/msg/leap_data.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"
 
 using namespace std::chrono_literals;
@@ -20,7 +20,7 @@ public:
   HandPublisher(std::string topic, std::string frame)
       : Node("hand_publisher"), frame_(frame), counter_(0), period_(20), time_lapse_(100ms) 
   {
-    publisher_ = create_publisher<leap_msgs::msg::LeapFrame>(topic);
+    publisher_ = create_publisher<leap_msgs::msg::LeapData>(topic);
     marker_publisher_ = create_publisher<visualization_msgs::msg::MarkerArray>(topic + "_markers");
 
     timer_ = this->create_wall_timer(time_lapse_, [this]() -> void {
@@ -33,14 +33,14 @@ private:
   {
     std::cout << "publishing hands..." << std::endl;
     auto message = create_msg((++counter_ % period_) * 1.0 / period_ * M_PI * 2);
-    auto marker_message = create_markers_from_leap_frame(message);
+    auto marker_message = create_markers_from_leap_data(message);
     publisher_->publish(message);
     marker_publisher_->publish(marker_message);
   }
 
-  leap_msgs::msg::LeapFrame create_msg(double elongation)
+  leap_msgs::msg::LeapData create_msg(double elongation)
   {
-    auto message = leap_msgs::msg::LeapFrame();
+    auto message = leap_msgs::msg::LeapData();
     message.header = std_msgs::msg::Header();
     message.header.frame_id = frame_;
     message.header.stamp = rclcpp::Clock().now();
@@ -68,7 +68,7 @@ private:
     return message;
   }
 
-  visualization_msgs::msg::MarkerArray create_markers_from_leap_frame(leap_msgs::msg::LeapFrame leap_frame)
+  visualization_msgs::msg::MarkerArray create_markers_from_leap_data(leap_msgs::msg::LeapData leap_frame)
   {
     auto message = visualization_msgs::msg::MarkerArray();
 
@@ -109,13 +109,13 @@ private:
   size_t period_;
   std::chrono::milliseconds time_lapse_;
   rclcpp::TimerBase::SharedPtr timer_;
-  rclcpp::Publisher<leap_msgs::msg::LeapFrame>::SharedPtr publisher_;
+  rclcpp::Publisher<leap_msgs::msg::LeapData>::SharedPtr publisher_;
   rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr marker_publisher_;
 };
 
 int main(int argc, char **argv)
 {
-  std::string topic = "hands";
+  std::string topic = "leap_data";
   if (rcutils_cli_option_exist(argv, argv + argc, "-t"))
   {
     topic = std::string(rcutils_cli_get_option(argv, argv + argc, "-t"));
