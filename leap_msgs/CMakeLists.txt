@@ -13,7 +13,7 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(leap_msgs
         "../leap_msgs/msg/Finger.msg"        
         "../leap_msgs/msg/Hand.msg"
-        "../leap_msgs/msg/LeapFrame.msg"
+        "../leap_msgs/msg/LeapData.msg"
         DEPENDENCIES std_msgs geometry_msgs)
 
 ament_package()

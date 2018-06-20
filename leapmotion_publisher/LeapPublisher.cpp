@@ -8,7 +8,7 @@ const std::string fingerNames[] = {"Thumb", "Index", "Middle", "Ring", "Pinky"};
 LeapPublisher::LeapPublisher()
 {
   node_ = rclcpp::Node::make_shared("leapmotion_publisher");
-  leap_frame_publisher_ = node_->create_publisher<leap_msgs::msg::LeapFrame>("leap_frames");
+  leap_data_publisher_ = node_->create_publisher<leap_msgs::msg::LeapData>("leap_data");
   marker_publisher_ = node_->create_publisher<visualization_msgs::msg::MarkerArray>("hand_array");
 }
 
@@ -55,10 +55,10 @@ void LeapPublisher::onFrame(const Leap::Controller & controller)
             << ", gestures: " << frame.gestures().count()
             << std::endl;
 
-  auto frame_msg = leap_msgs::msg::LeapFrame();
-  frame_msg.header = std_msgs::msg::Header();
-  frame_msg.header.frame_id = "leap_frame";
-  frame_msg.header.stamp = rclcpp::Clock().now();
+  auto leap_data_msg = leap_msgs::msg::LeapData();
+  leap_data_msg.header = std_msgs::msg::Header();
+  leap_data_msg.header.frame_id = "leap_frame";
+  leap_data_msg.header.stamp = rclcpp::Clock().now();
 
   auto marker_array_msg = visualization_msgs::msg::MarkerArray();
 
@@ -82,7 +82,7 @@ void LeapPublisher::onFrame(const Leap::Controller & controller)
     auto hand_marker = visualization_msgs::msg::Marker();
     hand_marker.header = std_msgs::msg::Header();
     hand_marker.header.frame_id = "leap_frame";
-    hand_marker.header.stamp = frame_msg.header.stamp;
+    hand_marker.header.stamp = leap_data_msg.header.stamp;
 
     hand_marker.id = leap_hand.isLeft() ? 1 : 2;
     hand_marker.ns = "hand_markers";
@@ -126,7 +126,7 @@ void LeapPublisher::onFrame(const Leap::Controller & controller)
       auto finger_marker = visualization_msgs::msg::Marker();
       finger_marker.header = std_msgs::msg::Header();
       finger_marker.header.frame_id = "leap_frame";
-      finger_marker.header.stamp = frame_msg.header.stamp;
+      finger_marker.header.stamp = leap_data_msg.header.stamp;
 
       finger_marker.id = hand_marker.id * 10 + leap_finger.type();
       finger_marker.ns = "finger_markers";
@@ -149,10 +149,10 @@ void LeapPublisher::onFrame(const Leap::Controller & controller)
       marker_array_msg.markers.emplace_back(finger_marker);
     }
 
-    frame_msg.hands.push_back(hand);
+    leap_data_msg.hands.push_back(hand);
   }
 
-  leap_frame_publisher_->publish(frame_msg);
+  leap_data_publisher_->publish(leap_data_msg);
   marker_publisher_->publish(marker_array_msg);
   rclcpp::spin_some(node_);
 }

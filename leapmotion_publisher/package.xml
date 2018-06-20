@@ -3,9 +3,9 @@
 <package format="2">
     <name>leapmotion_publisher</name>
     <version>0.1.0</version>
-    <description>Publishes all the data the leapmotion provides</description>
+    <description>Publishes all the data the LeapMotion provides</description>
     <maintainer email="andreas.greimel@tngtech.com">Andreas Greimel</maintainer>
-    <license>MIT</license>
+    <license>Apache License 2.0</license>
 
     <buildtool_depend>ament_cmake</buildtool_depend>
 
