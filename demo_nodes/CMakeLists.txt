@@ -13,14 +13,25 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rcutils)
+find_package(geometry_msgs REQUIRED)
 find_package(leap_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
+find_package(leap_srvs REQUIRED)
 
 add_executable(hand_publisher hand_publisher.cpp)
 ament_target_dependencies(hand_publisher rclcpp rcutils leap_msgs visualization_msgs)
 
+add_executable(conversion_service conversion_service.cpp)
+ament_target_dependencies(conversion_service rclcpp rcutils geometry_msgs leap_msgs leap_srvs)
+
+add_executable(conversion_service_client conversion_service_client.cpp)
+ament_target_dependencies(conversion_service_client
+  rclcpp rcutils geometry_msgs leap_msgs leap_srvs)
+
 install(TARGETS
   hand_publisher
+  conversion_service
+  conversion_service_client
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
