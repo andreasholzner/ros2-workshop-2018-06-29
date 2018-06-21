@@ -1,5 +1,5 @@
 #include "LeapPublisher.h"
-#include "leap_msgs/msg/leap_frame.hpp"
+#include "leap_msgs/msg/leap_data.hpp"
 
 using namespace Leap;
 
