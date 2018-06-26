@@ -45,16 +45,16 @@ private:
     request->hands = msg->hands;
     auto frame_id = msg->header.frame_id;
     auto result_future = converter_client_->async_send_request(request,
-      [this](ServiceResponse future){
-        onServiceResponse(future);
+      [frame_id, this](ServiceResponse future){
+        onServiceResponse(future, frame_id);
       });
   }
 
-  void onServiceResponse(ServiceResponse future)
+  void onServiceResponse(ServiceResponse future, std::string frame_id)
   {
     auto result = future.get();
     auto message = geometry_msgs::msg::PoseArray();
-    message.header.frame_id = result->poses.header.frame_id;
+    message.header.frame_id = frame_id;
     message.header.stamp = rclcpp::Clock().now();
     message.poses = result->poses.poses;
     publisher_->publish(message);
