@@ -18,20 +18,36 @@ find_package(leap_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(leap_srvs REQUIRED)
 
-add_executable(hand_publisher hand_publisher.cpp)
+include_directories(include)
+
+add_executable(hand_publisher
+  src/hand_publisher.cpp
+  src/hand_publisher_node.cpp)
 ament_target_dependencies(hand_publisher rclcpp rcutils leap_msgs visualization_msgs)
 
-add_executable(conversion_service conversion_service.cpp)
-ament_target_dependencies(conversion_service rclcpp rcutils geometry_msgs leap_msgs leap_srvs)
+add_executable(conversion_service
+  src/conversion_service.cpp
+  src/conversion_service_node.cpp)
+ament_target_dependencies(conversion_service rclcpp rcutils geometry_msgs leap_srvs)
 
-add_executable(conversion_service_client conversion_service_client.cpp)
+add_executable(conversion_service_client
+  src/conversion_service_client.cpp
+  src/conversion_service_client_node.cpp)
 ament_target_dependencies(conversion_service_client
   rclcpp rcutils geometry_msgs leap_msgs leap_srvs)
+
+ament_export_include_directories(include)
 
 install(TARGETS
   hand_publisher
   conversion_service
   conversion_service_client
-  DESTINATION lib/${PROJECT_NAME})
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
 
 ament_package()
