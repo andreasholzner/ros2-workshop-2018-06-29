@@ -36,12 +36,21 @@ add_executable(conversion_service_client
 ament_target_dependencies(conversion_service_client
   rclcpp rcutils geometry_msgs leap_msgs leap_srvs)
 
+add_executable(combined_single_threaded
+  src/combined_single_threaded.cpp
+  src/conversion_service_client_node.cpp
+  src/conversion_service_node.cpp
+  src/hand_publisher_node.cpp)
+ament_target_dependencies(combined_single_threaded
+  rclcpp rcutils geometry_msgs leap_msgs leap_srvs visualization_msgs)
+
 ament_export_include_directories(include)
 
 install(TARGETS
   hand_publisher
   conversion_service
   conversion_service_client
+  combined_single_threaded
   DESTINATION lib/${PROJECT_NAME}
 )
 
