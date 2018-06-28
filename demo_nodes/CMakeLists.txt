@@ -36,12 +36,16 @@ ament_target_dependencies(tf_broadcaster rclcpp tf2_ros leap_msgs geometry_msgs)
 add_executable(tf_lookup tf_lookup.cpp)
 ament_target_dependencies(tf_lookup rclcpp tf2 tf2_ros leap_msgs geometry_msgs)
 
+add_executable(tf_lookup_hand2hand tf_lookup_hand2hand.cpp)
+ament_target_dependencies(tf_lookup_hand2hand rclcpp tf2 tf2_ros leap_msgs geometry_msgs)
+
 install(TARGETS
   hand_publisher
   conversion_service
   conversion_service_client
   tf_broadcaster
   tf_lookup
+  tf_lookup_hand2hand
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
