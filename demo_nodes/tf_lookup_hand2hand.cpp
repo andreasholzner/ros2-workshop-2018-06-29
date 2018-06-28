@@ -19,12 +19,6 @@ using namespace std::this_thread;
 
 int main(int argc, char **argv)
 {
-  std::string frame = "leap_frame";
-  if (rcutils_cli_option_exist(argv, argv + argc, "-f"))
-  {
-    frame = std::string(rcutils_cli_get_option(argv, argv + argc, "-f"));
-  }
-
   rclcpp::init(0, nullptr);
 
   auto buffer = std::make_shared<tf2_ros::Buffer>();
