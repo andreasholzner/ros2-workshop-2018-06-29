@@ -1,0 +1,11 @@
+ROS 2.0 Workshop
+
+Copyright 2018 Andreas Holzner <andreas.holzner@tngtech.com>
+Copyright 2018 Andreas Greimel <andreas.greimel@tngtech.com>
+ 
+This project includes software developed at
+TNG Technology Consulting GmbH (https://www.tngtech.com/).
+
+
+This project does not include but depends on ROS 2.0 which is
+available under Apache License 2.0.
