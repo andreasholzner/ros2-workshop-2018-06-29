@@ -14,3 +14,29 @@
    . install/setup.bash
    demo
    ```
+
+## Links
+
+- [Feature Overview](https://github.com/ros2/ros2/wiki/Features)
+- [Design Overview](http://design.ros2.org/)
+- [Tutorials](https://github.com/ros2/ros2/wiki/Tutorials)
+- [Basic Examples](https://github.com/ros2/examples)
+- [Colcon - build tool](https://colcon.readthedocs.io/en/released/)
+- [Official Core Documentation](http://docs.ros2.org)
+  - [rclcpp API docs](http://docs.ros2.org/ardent/api/rclcpp/index.html)
+- TF2 - ROS Bindings
+  - This is mostly ROS1 but the API works almost the same for ROS 2.0
+  - [Wiki](http://wiki.ros.org/tf2_ros)
+  - [API docs](http://docs.ros.org/latest/api/tf2_ros/html/c++/namespacetf2__ros.html)
+  - [ROS 2.0 tf2_ros Github project](https://github.com/ros2/geometry2/tree/ros2/tf2_ros)
+
+## ROS 2.0 CLI tools
+
+- `ros2 topic list`
+- `ros2 topic echo <TOPIC>`
+  Subscribes to topic <TOPIC> and prints every received message.
+- `ros2 topic pub ...`
+  Creates an adhoc publisher and publishes periodically given data.
+  ```
+  ros2 topic pub topic1 std_msgs/String "data: Hello World"
+  ```
