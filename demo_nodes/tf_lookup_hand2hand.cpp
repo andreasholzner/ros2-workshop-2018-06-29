@@ -19,6 +19,9 @@ using namespace std::this_thread;
 
 int main(int argc, char **argv)
 {
+  (void) argc;
+  (void) argv;
+
   rclcpp::init(0, nullptr);
 
   auto buffer = std::make_shared<tf2_ros::Buffer>();

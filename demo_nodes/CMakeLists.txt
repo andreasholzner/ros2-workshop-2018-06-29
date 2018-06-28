@@ -17,6 +17,7 @@ find_package(leap_srvs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rcutils)
 find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
@@ -39,6 +40,9 @@ ament_target_dependencies(tf_lookup rclcpp tf2 tf2_ros leap_msgs geometry_msgs)
 add_executable(tf_lookup_hand2hand tf_lookup_hand2hand.cpp)
 ament_target_dependencies(tf_lookup_hand2hand rclcpp tf2 tf2_ros leap_msgs geometry_msgs)
 
+add_executable(tf_transform tf_transform.cpp)
+ament_target_dependencies(tf_transform rclcpp tf2 tf2_geometry_msgs tf2_ros leap_msgs geometry_msgs)
+
 install(TARGETS
   hand_publisher
   conversion_service
@@ -46,6 +50,7 @@ install(TARGETS
   tf_broadcaster
   tf_lookup
   tf_lookup_hand2hand
+  tf_transform
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
