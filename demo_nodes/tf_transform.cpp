@@ -36,11 +36,9 @@ void doTransform(
 
   tf2::doTransform(position, transformed_position, transform);
 
-  t_out.position.x = transformed_position.point.x;
-  t_out.position.y = transformed_position.point.y;
-  t_out.position.z = transformed_position.point.z;
+  t_out.position = transformed_position.point;
 }
-}
+}  // namespace tf2
 
 using namespace std::chrono_literals;
 
