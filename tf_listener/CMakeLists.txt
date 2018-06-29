@@ -15,9 +15,11 @@ find_package(rcutils REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(leap_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 add_executable(tf_list TfListenerNode.cpp)
-ament_target_dependencies(tf_list rcutils rclcpp tf2 tf2_ros )
+ament_target_dependencies(tf_list rcutils rclcpp tf2 tf2_ros leap_msgs tf2_geometry_msgs)
  
 install(TARGETS tf_list DESTINATION lib/${PROJECT_NAME})
 

@@ -17,6 +17,11 @@
 
     <exec_depend>rcutils</exec_depend>
 
+    <build_depend>leap_msgs</build_depend>
+
+    <exec_depend>leap_msgs</exec_depend>
+
+
     <export>
         <build_type>ament_cmake</build_type>
     </export>
