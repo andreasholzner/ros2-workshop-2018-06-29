@@ -7,6 +7,8 @@
 #include <tf2_ros/buffer.h>
 #include "geometry_msgs/msg/transform_stamped.hpp"
 
+#include  <cmath>
+
 class TfListener : public rclcpp::Node
 {
 public:
@@ -16,15 +18,21 @@ public:
                 
                 try
                 {
-                    if(buffer.canTransform("hand2", "leap", tf2::TimePointZero)){
-                    geometry_msgs::msg::TransformStamped t = buffer.lookupTransform("hand2", "leap", tf2::TimePointZero);
+                    if(buffer.canTransform("hand2", "leap_frame", tf2::TimePointZero)){
+                    geometry_msgs::msg::TransformStamped t = buffer.lookupTransform("hand2", "leap_frame", tf2::TimePointZero);
                     std::cout << "Transform zu hand 2 vorhanden " << t.transform.translation.x << std::endl;
                 }
 
-                if(buffer.canTransform("hand1", "leap", tf2::TimePointZero)){
-                    geometry_msgs::msg::TransformStamped t = buffer.lookupTransform("hand1", "leap", tf2::TimePointZero);
+                if(buffer.canTransform("hand1", "leap_frame", tf2::TimePointZero)){
+                    geometry_msgs::msg::TransformStamped t = buffer.lookupTransform("hand1", "leap_frame", tf2::TimePointZero);
                     std::cout << "Transform zu hand 1 vorhanden " << t.transform.translation.x << std::endl;
                 }
+
+                if(buffer.canTransform("hand1", "hand2", tf2::TimePointZero)){
+                    auto t = buffer.lookupTransform("hand1", "hand2", tf2::TimePointZero);
+                    std::cout << "Abstand:" << sqrt(t.transform.translation.x*t.transform.translation.x+t.transform.translation.y*t.transform.translation.y+t.transform.translation.z*t.transform.translation.z) << std::endl;
+                }
+
                 }
                 catch(const tf2::LookupException& e)
                 {
