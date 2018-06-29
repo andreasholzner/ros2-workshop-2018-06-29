@@ -9,6 +9,7 @@
 #include <string>
 #include <thread>
 #include <chrono>
+#include <memory>
 
 class MyPublisher : public rclcpp::Node
 {
@@ -22,18 +23,21 @@ public:
 
 int main(int argc, char **argv)
 {
+	int i = 0;
     std::cout << "Hello, I'm a publisher" << std::endl;
 
     rclcpp::init(argc, argv);
 
-    MyPublisher my_publisher;
-    auto publisher = my_publisher.create_publisher<std_msgs::msg::String>("first_demo");
-    auto msg = std_msgs::msg::String();
-	for(int i = 0; true; i++){
-	    msg.data = std::string("Testdaten") + std::to_string(i);
+	auto my_publisher = std::make_shared<MyPublisher>();
+    auto publisher = my_publisher->create_publisher<std_msgs::msg::String>("first_demo");
+    auto timer = my_publisher->create_wall_timer(std::chrono::seconds(1),[publisher, &i](){
+		auto msg = std_msgs::msg::String();
+	    msg.data = std::string("Testdaten ") + std::to_string(i);
 	    publisher->publish(msg);
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-	}
+		i++;
+	});
+
+	rclcpp::spin(my_publisher);
 
     rclcpp::shutdown();
 
