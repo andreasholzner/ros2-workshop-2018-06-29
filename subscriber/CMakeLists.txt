@@ -19,6 +19,6 @@ find_package(messages REQUIRED)
 add_executable(sub SubscriberNode.cpp)
 ament_target_dependencies(sub rcutils rclcpp std_msgs messages)
 
-install(TARGETS sub DESTINATION bin)
+install(TARGETS sub DESTINATION lib/subscriber)
 
 ament_package()
