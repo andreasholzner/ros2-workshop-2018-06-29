@@ -6,6 +6,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
+#include "messages/msg/custom_message.hpp"
 #include <string>
 #include <thread>
 #include <chrono>
@@ -30,11 +31,15 @@ int main(int argc, char **argv)
 
 	auto my_publisher = std::make_shared<MyPublisher>();
     auto publisher = my_publisher->create_publisher<std_msgs::msg::String>("first_demo");
-    auto timer = my_publisher->create_wall_timer(std::chrono::seconds(1),[publisher, &i](){
+    auto custom_publisher = my_publisher->create_publisher<messages::msg::CustomMessage>("custom_message");
+    auto timer = my_publisher->create_wall_timer(std::chrono::seconds(1),[publisher, custom_publisher, &i](){
 		auto msg = std_msgs::msg::String();
 	    msg.data = std::string("Testdaten ") + std::to_string(i);
 	    publisher->publish(msg);
-		i++;
+		auto custom_msg = messages::msg::CustomMessage();
+		custom_msg.foo = std::string("Testdaten ");
+		custom_msg.bar = i++;
+		custom_publisher->publish(custom_msg);
 	});
 
 	rclcpp::spin(my_publisher);
